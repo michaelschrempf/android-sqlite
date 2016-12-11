@@ -1,1 +1,3 @@
-Serves as a starting point for writing android apps with Scala.
+# Android SQLite
+
+Shows how to persist data in a sqlite database.
