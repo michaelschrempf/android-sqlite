@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="labelFirstName">FirstName</string>
+    <string name="hintFirstName">Enter yor first name</string>
+</resources>

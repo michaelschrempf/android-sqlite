@@ -1,0 +1,4 @@
+/**
+ * shows that the module where android sources are placed doesn't need to be named 'Application'
+ */
+include 'sqlite'
