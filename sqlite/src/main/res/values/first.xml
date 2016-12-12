@@ -3,4 +3,5 @@
     <string name="first_title">First Page</string>
     <string name="first_labelFirstName">First name</string>
     <string name="first_hintFirstName">Enter yor first name</string>
+    <string name="first_save">Save</string>
 </resources>

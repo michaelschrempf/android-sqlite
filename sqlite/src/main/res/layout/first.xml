@@ -23,6 +23,7 @@
     <Button
         android:id="@+id/firstSave"
         android:onClick="saveToDb"
+        android:text="@string/first_save"
         />
 
 </GridLayout>
