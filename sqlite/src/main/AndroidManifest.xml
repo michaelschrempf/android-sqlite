@@ -20,8 +20,7 @@
         </activity>
         <activity
             android:name=".FirstActivity"
-            android:label="@string/first_title"
-            >
+            android:label="@string/first_title">
 
         </activity>
     </application>

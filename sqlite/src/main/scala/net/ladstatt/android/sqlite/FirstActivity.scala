@@ -20,6 +20,10 @@ case class FooDb(context: Context) extends SQLiteOpenHelper(context, "mydb", nul
   }
 }
 
+/**
+  * Shows how to lookup user interface elements via findViewById, and more importantly
+  * an example how to use SQLiteOpenHelper class
+  */
 class FirstActivity extends Activity {
 
   var fooDb: FooDb = _
@@ -34,11 +38,17 @@ class FirstActivity extends Activity {
     val firstNameEditText = findViewById(R.id.firstName).asInstanceOf[EditText]
     val firstName: String = firstNameEditText.getText.toString
     println(firstName)
+
+    // I WANT TO WRITE TO THE DATABASE
+
     val cv = new ContentValues()
     Map("firstname" -> firstName) foreach {
       case (k, v) => cv.put(k, v)
     }
     fooDb.getWritableDatabase().insert("person", null, cv)
+
+
+    // I WANT TO READ THE DATABASE
 
     var someCursor: Option[Cursor] = None
     try {
@@ -53,7 +63,6 @@ class FirstActivity extends Activity {
             println(s"ID($id) : $firstName")
           }
       }
-
     } finally {
       someCursor foreach (_.close())
     }
