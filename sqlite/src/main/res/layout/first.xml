@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:columnCount="3"
-    android:rowCount="1">
+    android:rowCount="3">
 
     <TextView
         android:layout_width="122dp"
@@ -15,15 +15,43 @@
 
     <EditText
         android:id="@+id/firstName"
+        android:layout_column="1"
+        android:layout_row="0"
         android:layout_width="188dp"
         android:layout_height="wrap_content"
         android:hint="@string/first_hintFirstName"
         android:inputType="textPersonName" />
 
+    <TextView
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:text="@string/first_labelSecondName" />
+
+    <EditText
+        android:id="@+id/secondName"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/first_hintSecondName"
+        android:inputType="textPersonName" />
+
+
     <Button
+        android:layout_column="0"
+        android:layout_row="2"
         android:id="@+id/firstSave"
         android:onClick="saveToDb"
         android:text="@string/first_save"
+        />
+    <Button
+        android:layout_column="1"
+        android:layout_row="2"
+        android:id="@+id/firstLoad"
+        android:onClick="loadFromDb"
+        android:text="@string/first_load"
         />
 
 </GridLayout>
