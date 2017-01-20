@@ -23,22 +23,39 @@ case class SimpleDb(context: Context) extends SQLiteOpenHelper(context, SimpleDb
   override def onCreate(db: SQLiteDatabase): Unit = {
 
     // perform initial setup
-    val personTable = PersonTable(db)
+    val personDao = SqlitePersonDao(db)
 
-    personTable.init()
+    personDao.init()
 
-    for (i <- 1 to 100) personTable.insert(Person.mkRandom)
+    for (i <- 1 to 100) personDao.insert(Person.mkRandom)
 
   }
 
-  def mkPersonTable(): PersonTable = PersonTable(getWritableDatabase)
+  def mkPersonDao(): SqlitePersonDao = SqlitePersonDao(getWritableDatabase)
+
+
+  trait BaseDao[T] {
+
+    def insert(t: T): Long
+
+    def update(t: T): Int
+
+    // ... and other functions
+  }
+
+  def mkContentValues(p: Person): ContentValues = {
+    val cv = new ContentValues
+    cv.put("firstname", p.firstName)
+    cv.put("secondname", p.secondName)
+    cv
+  }
 
   /**
     * Hides details of database table 'Person'
     *
     * @param db
     */
-  case class PersonTable(db: SQLiteDatabase) {
+  case class SqlitePersonDao(db: SQLiteDatabase) extends BaseDao[Person] {
 
     def init(): Unit = db.execSQL("create table person (id INTEGER PRIMARY KEY ASC, firstname TEXT, secondname TEXT);")
 
@@ -47,17 +64,17 @@ case class SimpleDb(context: Context) extends SQLiteOpenHelper(context, SimpleDb
       *
       * @param p
       */
-    def insert(p: Person): Unit = {
+    def insert(p: Person): Long = {
       val cv: ContentValues = mkContentValues(p)
       db.insert("person", null, cv)
     }
 
-    def deleteByFirstName(firstName : String) : Unit = {
+    def deleteByFirstName(firstName: String): Unit = {
       db.delete("person", "firstname = ?", Array(firstName))
     }
 
-    def update(p : Person) : Unit = {
-      db.update("person", mkContentValues(p), "firstname = ? and secondname = ?", Array(p.firstName,p.secondName))
+    def update(p: Person): Int = {
+      db.update("person", mkContentValues(p), "firstname = ? and secondname = ?", Array(p.firstName, p.secondName))
     }
 
     /**
@@ -66,7 +83,7 @@ case class SimpleDb(context: Context) extends SQLiteOpenHelper(context, SimpleDb
       * @param firstName the firstName to search for
       * @return
       */
-    def listByFirstName(firstName: String): List[Person] = {
+    def findByFirstName(firstName: String): List[Person] = {
       var someCursor: Option[Cursor] = None
       try {
         someCursor = someCursorForFirstnameQuery(firstName)
@@ -96,21 +113,16 @@ case class SimpleDb(context: Context) extends SQLiteOpenHelper(context, SimpleDb
       * @param firstName
       * @return
       */
-    def someCursorForFirstnameQuery(firstName: String): Option[Cursor] = {
+    private def someCursorForFirstnameQuery(firstName: String): Option[Cursor] = {
       Option(db.query("person", Array("id", "firstname", "secondname"), "firstname = ?", Array(firstName), null, null, null))
     }
 
-    def somePersonCursor(): Option[Cursor] = {
+    private def somePersonCursor(): Option[Cursor] = {
       Option(db.query("person", Array("id", "firstname", "secondname"), null, null, null, null, null))
     }
 
 
   }
 
-  def mkContentValues(p: Person): ContentValues = {
-    val cv = new ContentValues
-    cv.put("firstname", p.firstName)
-    cv.put("secondname", p.secondName)
-    cv
-  }
+
 }

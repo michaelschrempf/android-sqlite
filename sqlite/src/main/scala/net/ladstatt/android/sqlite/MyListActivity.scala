@@ -20,7 +20,9 @@ class MyListActivity extends ListActivity {
 
     aDb = SimpleDb(getApplicationContext)
 
-    val persons: List[Person] = aDb.mkPersonTable().listByFirstName("ggg")
+    val persons: List[Person] = aDb.mkPersonDao().findByFirstName("ggg")
+
+    //val ps : List[Person] = List(Person("aaa","b"))
 
     val pA = new ArrayAdapter[Person](this, android.R.layout.simple_list_item_1, persons)
 

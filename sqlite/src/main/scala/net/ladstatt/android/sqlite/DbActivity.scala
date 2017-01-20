@@ -32,7 +32,10 @@ class DbActivity extends Activity {
     val secondName: String = findViewById(R.id.secondName).asInstanceOf[EditText].getText.toString
 
     // I WANT TO WRITE TO THE DATABASE
-    aDb.mkPersonTable().insert(Person(firstName, secondName))
+    val person: Person = Person(firstName, secondName)
+
+    val personDao = aDb.mkPersonDao()
+    personDao.insert(person)
   }
 
   def loadFromDb(view: View): Unit = {
