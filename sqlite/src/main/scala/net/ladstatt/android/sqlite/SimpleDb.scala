@@ -107,6 +107,27 @@ case class SimpleDb(context: Context) extends SQLiteOpenHelper(context, SimpleDb
 
     }
 
+    def allEntries():List[Person] = {
+
+      var someCursor: Option[Cursor] = None
+      someCursor = somePersonCursor()
+      someCursor match {
+        case None =>
+          System.err.println("Could not execute query due to some reason")
+          Nil
+        case Some(c) =>
+          val lb = new ListBuffer[Person]()
+          while (c.moveToNext()) {
+            val id = c.getInt(c.getColumnIndex("id"))
+            val firstName = c.getString(c.getColumnIndex("firstname"))
+            val secondName = c.getString(c.getColumnIndex("secondname"))
+            lb.append(Person(firstName, secondName))
+          }
+          lb.toList
+      }
+
+    }
+
     /**
       * Returns an optional cursor for a firstname query on the person table.
       *

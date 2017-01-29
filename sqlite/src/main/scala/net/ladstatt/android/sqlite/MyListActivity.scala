@@ -9,7 +9,7 @@ import android.widget.{ArrayAdapter, ListView, SimpleCursorAdapter}
 import scala.collection.JavaConversions._
 
 /**
-  * Created by lad on 19/01/2017.
+  * Created by Michael on 19/01/2017.
   */
 class MyListActivity extends ListActivity {
 
@@ -20,7 +20,7 @@ class MyListActivity extends ListActivity {
 
     aDb = SimpleDb(getApplicationContext)
 
-    val persons: List[Person] = aDb.mkPersonDao().findByFirstName("ggg")
+    val persons: List[Person] = aDb.mkPersonDao().allEntries()
 
     //val ps : List[Person] = List(Person("aaa","b"))
 
